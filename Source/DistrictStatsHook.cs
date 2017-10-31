@@ -10,9 +10,166 @@ namespace DistrictStats
     public class DistrictStatsPanel : UIPanel
     {
         public bool displayRequested;
+        private bool isShowing;
         private int updateCount;
 
-        public UISlicedSprite m_demandSprite;
+        UILabel title;
+
+        UISprite iconToolbarIconElectricity;
+        UISprite iconToolbarIconWaterAndSewage;
+        UISprite iconToolbarIconGarbage;
+        UISprite iconInfoIconHeating;
+        UISprite iconInfoIconOutsideConnection;
+
+        UISlider sliderToolbarIconElectricity;
+        UISlider sliderToolbarIconWaterAndSewage;
+        UISlider sliderToolbarIconGarbage;
+        UISlider sliderInfoIconHeating;
+        UILabel labelImport;
+        UILabel labelExport;
+
+        public void CreatePanel()
+        {
+            // icons
+            iconToolbarIconElectricity = AddUIComponent<UISprite>();
+            iconToolbarIconElectricity.spriteName = "ToolbarIconElectricity";
+            iconToolbarIconElectricity.name = "Icon";
+            iconToolbarIconElectricity.size = new Vector2(20, 20);
+            iconToolbarIconElectricity.relativePosition = new Vector3(5, 45);
+            iconToolbarIconElectricity.BringToFront();
+
+            iconToolbarIconWaterAndSewage = AddUIComponent<UISprite>();
+            iconToolbarIconWaterAndSewage.spriteName = "ToolbarIconWaterAndSewage";
+            iconToolbarIconWaterAndSewage.name = "Icon";
+            iconToolbarIconWaterAndSewage.size = new Vector2(20, 20);
+            iconToolbarIconWaterAndSewage.relativePosition = new Vector3(5, 70);
+            iconToolbarIconWaterAndSewage.BringToFront();
+
+            iconToolbarIconGarbage = AddUIComponent<UISprite>();
+            iconToolbarIconGarbage.spriteName = "ToolbarIconGarbage";
+            iconToolbarIconGarbage.name = "Icon";
+            iconToolbarIconGarbage.size = new Vector2(20, 20);
+            iconToolbarIconGarbage.relativePosition = new Vector3(5, 95);
+            iconToolbarIconGarbage.BringToFront();
+
+            iconInfoIconHeating = AddUIComponent<UISprite>();
+            iconInfoIconHeating.spriteName = "InfoIconHeating";
+            iconInfoIconHeating.name = "Icon";
+            iconInfoIconHeating.size = new Vector2(20, 20);
+            iconInfoIconHeating.relativePosition = new Vector3(5, 120);
+            iconInfoIconHeating.BringToFront();
+
+            iconInfoIconOutsideConnection = AddUIComponent<UISprite>();
+            iconInfoIconOutsideConnection.spriteName = "InfoIconOutsideConnections";
+            iconInfoIconOutsideConnection.name = "Icon";
+            iconInfoIconOutsideConnection.size = new Vector2(20, 20);
+            iconInfoIconOutsideConnection.relativePosition = new Vector3(5, 145);
+            iconInfoIconOutsideConnection.BringToFront();
+
+            // sliders
+            sliderToolbarIconElectricity = AddUIComponent<UISlider>();
+            sliderToolbarIconElectricity.name = "sliderToolbarIconElectricity";
+            sliderToolbarIconElectricity.cachedName = "sliderToolbarIconElectricity";
+            sliderToolbarIconElectricity.size = new Vector2(150, 10);
+            sliderToolbarIconElectricity.relativePosition = new Vector3(40, 50);
+            sliderToolbarIconElectricity.BringToFront();
+            sliderToolbarIconElectricity.backgroundSprite = "MeterBackground";
+            sliderToolbarIconElectricity.minValue = 0f;
+            sliderToolbarIconElectricity.maxValue = 2.2f;
+            sliderToolbarIconElectricity.value = 0f;
+            sliderToolbarIconElectricity.thumbObject = AddUIComponent<UISprite>();
+            (sliderToolbarIconElectricity.thumbObject as UISprite).spriteName = "MeterIndicator";
+            sliderToolbarIconElectricity.thumbObject.name = "Thumb";
+
+            sliderToolbarIconWaterAndSewage = AddUIComponent<UISlider>();
+            sliderToolbarIconWaterAndSewage.name = "sliderToolbarIconWaterAndSewage";
+            sliderToolbarIconWaterAndSewage.cachedName = "sliderToolbarIconWaterAndSewage";
+            sliderToolbarIconWaterAndSewage.size = new Vector2(150, 10);
+            sliderToolbarIconWaterAndSewage.relativePosition = new Vector3(40, 75);
+            sliderToolbarIconWaterAndSewage.BringToFront();
+            sliderToolbarIconWaterAndSewage.backgroundSprite = "MeterBackground";
+            sliderToolbarIconWaterAndSewage.minValue = 0f;
+            sliderToolbarIconWaterAndSewage.maxValue = 2.2f;
+            sliderToolbarIconWaterAndSewage.value = 0f;
+            sliderToolbarIconWaterAndSewage.thumbObject = AddUIComponent<UISprite>();
+            (sliderToolbarIconWaterAndSewage.thumbObject as UISprite).spriteName = "MeterIndicator";
+            sliderToolbarIconWaterAndSewage.thumbObject.name = "Thumb";
+
+            sliderToolbarIconGarbage = AddUIComponent<UISlider>();
+            sliderToolbarIconGarbage.name = "sliderToolbarIconGarbage";
+            sliderToolbarIconGarbage.cachedName = "sliderToolbarIconGarbage";
+            sliderToolbarIconGarbage = AddUIComponent<UISlider>();
+            sliderToolbarIconGarbage.size = new Vector2(150, 10);
+            sliderToolbarIconGarbage.relativePosition = new Vector3(40, 100);
+            sliderToolbarIconGarbage.BringToFront();
+            sliderToolbarIconGarbage.backgroundSprite = "MeterBackground";
+            sliderToolbarIconGarbage.minValue = 0f;
+            sliderToolbarIconGarbage.maxValue = 2.2f;
+            sliderToolbarIconGarbage.value = 0f;
+            sliderToolbarIconGarbage.thumbObject = AddUIComponent<UISprite>();
+            (sliderToolbarIconGarbage.thumbObject as UISprite).spriteName = "MeterIndicator";
+            sliderToolbarIconGarbage.thumbObject.name = "Thumb";
+
+            sliderInfoIconHeating = AddUIComponent<UISlider>();
+            sliderInfoIconHeating.name = "sliderInfoIconHeating";
+            sliderInfoIconHeating.cachedName = "sliderInfoIconHeating";
+            sliderInfoIconHeating = AddUIComponent<UISlider>();
+            sliderInfoIconHeating.size = new Vector2(150, 10);
+            sliderInfoIconHeating.relativePosition = new Vector3(40, 125);
+            sliderInfoIconHeating.BringToFront();
+            sliderInfoIconHeating.backgroundSprite = "MeterBackground";
+            sliderInfoIconHeating.minValue = 0f;
+            sliderInfoIconHeating.maxValue = 2.2f;
+            sliderInfoIconHeating.value = 0f;
+            sliderInfoIconHeating.thumbObject = AddUIComponent<UISprite>();
+            (sliderInfoIconHeating.thumbObject as UISprite).spriteName = "MeterIndicator";
+            sliderInfoIconHeating.thumbObject.name = "Thumb";
+
+            labelImport = AddUIComponent<UILabel>();
+            labelImport.width = 80;
+            labelImport.height = 20;
+            labelImport.textScale = 0.6f;
+            labelImport.textAlignment = UIHorizontalAlignment.Left;
+            labelImport.text = "Import: 0";
+            labelImport.relativePosition = new Vector3 (40, 150);
+
+            labelExport = AddUIComponent<UILabel>();
+            labelExport.width = 80;
+            labelExport.height = 20;
+            labelExport.textScale = 0.6f;
+            labelExport.textAlignment = UIHorizontalAlignment.Left;
+            labelExport.text = "Export: 0";
+            labelExport.relativePosition = new Vector3 (130, 150);
+        }
+
+        public override void Start()
+        {
+            Debug.Print("Creating Panel...");
+            base.Start();
+
+            this.autoLayout = true;
+            this.autoLayoutStart = LayoutStart.TopLeft;
+            this.autoLayoutDirection = LayoutDirection.Vertical;
+            this.autoSize = true;
+            this.canFocus = true;
+            this.isInteractive = true;
+            this.width = 220;
+            this.height = 180;
+            this.backgroundSprite = "MenuPanel2";
+
+            title = AddUIComponent<UILabel>();
+            title.width = 220;
+            title.height = 20;
+            title.textScale = 0.9f;
+            title.textAlignment = UIHorizontalAlignment.Center;
+            title.text = "District Stats";
+            title.padding = new RectOffset(5, 5, 5, 5);
+            title.relativePosition = Vector3.zero;
+            this.autoLayout = false;
+
+            CreatePanel();
+            Hide();
+        }
 
         /**
          * FROM District Service Limit:
@@ -34,109 +191,61 @@ namespace DistrictStats
                 if (updateCount > 0)
                 {
                     updateCount = 0;
-                    displayRequested = false;
+                    isShowing = true;
 
-                    SetDemands(GetDistrict());
+                    SetInfo(GetDistrict());
+                    Show();
                 }
-            }
-        }
-
-        public void RefreshVisibility(bool show)
-        {
-            if (!show)
-            {
-                displayRequested = false;
-            }
-            else
-            {
-                displayRequested = true;
             }
         }
 
         public void OnVisibilityChanged(UIComponent component, bool visible)
         {
-            RefreshVisibility(visible);
-        }
-
-        public void OnPositionChanged(UIComponent component, Vector2 position)
-        {
-            bool visible = DistrictRCIHook.m_UIPanel.isVisible;
-            RefreshVisibility(visible);
-        }
-
-
-        private void SetDemands(District district)
-        {
-            foreach (UISlider slider in m_demandSprite.GetComponentsInChildren<UISlider>())
+            if (isShowing && !visible)
             {
-                if (slider.name.Equals("ResidentialDemand"))
-                {
-                    slider.value = 0;
-                    if (district.m_flags != District.Flags.None)
-                        slider.value = CalculateResidentialDemand(district);
-                }
-                else if (slider.name.Equals("CommercialDemand"))
-                {
-                    slider.value = 0;
-                    if (district.m_flags != District.Flags.None)
-                        slider.value = CalculateCommercialDemand(district);
-                }
-                else if (slider.name.Equals("IndustryOfficeDemand"))
-                {
-                    slider.value = 0;
-                    if (district.m_flags != District.Flags.None)
-                        slider.value = CalculateWorkplaceDemand(district);
-                }
+                Hide();
+                isShowing = false;
+                displayRequested = false;
             }
         }
 
-        private int CalculateResidentialDemand(District districtData)
-        {
-            // from ZoneManager
-            int a = (int)(districtData.m_commercialData.m_finalHomeOrWorkCount + districtData.m_industrialData.m_finalHomeOrWorkCount + districtData.m_officeData.m_finalHomeOrWorkCount + districtData.m_playerData.m_finalHomeOrWorkCount);
-            int num = (int)(districtData.m_commercialData.m_finalEmptyCount + districtData.m_industrialData.m_finalEmptyCount + districtData.m_officeData.m_finalEmptyCount + districtData.m_playerData.m_finalEmptyCount);
-            int finalHomeOrWorkCount = (int)districtData.m_residentialData.m_finalHomeOrWorkCount;
-            int finalEmptyCount = (int)districtData.m_residentialData.m_finalEmptyCount;
-            int num2 = (int)(districtData.m_educated0Data.m_finalUnemployed + districtData.m_educated1Data.m_finalUnemployed + districtData.m_educated2Data.m_finalUnemployed + districtData.m_educated3Data.m_finalUnemployed);
-            int num3 = (int)(districtData.m_educated0Data.m_finalHomeless + districtData.m_educated1Data.m_finalHomeless + districtData.m_educated2Data.m_finalHomeless + districtData.m_educated3Data.m_finalHomeless);
-            int num4 = Mathf.Clamp(100 - finalHomeOrWorkCount, 50, 100);
-            num4 += Mathf.Clamp((num * 200 - num2 * 200) / Mathf.Max(a, 100), -50, 50);
-            num4 += Mathf.Clamp((num3 * 200 - finalEmptyCount * 200) / Mathf.Max(finalHomeOrWorkCount, 100), -50, 50);
-            //this.m_DemandWrapper.OnCalculateResidentialDemand(ref num4);
-            Debug.Print(districtData.ToString() + " - R: " + num4);
-            return Mathf.Clamp(num4, 0, 100);
-        }
 
-        private int CalculateCommercialDemand(District districtData)
+        private void SetInfo(District district)
         {
-            // from ZoneManager
-            int num = (int)(districtData.m_commercialData.m_finalHomeOrWorkCount - districtData.m_commercialData.m_finalEmptyCount);
-            int num2 = (int)(districtData.m_residentialData.m_finalHomeOrWorkCount - districtData.m_residentialData.m_finalEmptyCount);
-            int finalHomeOrWorkCount = (int)districtData.m_visitorData.m_finalHomeOrWorkCount;
-            int finalEmptyCount = (int)districtData.m_visitorData.m_finalEmptyCount;
-            int num3 = Mathf.Clamp(num2, 0, 50);
-            num = num * 10 * 16 / 100;
-            num2 = num2 * 20 / 100;
-            num3 += Mathf.Clamp((num2 * 200 - num * 200) / Mathf.Max(num, 100), -50, 50);
-            num3 += Mathf.Clamp((finalHomeOrWorkCount * 100 - finalEmptyCount * 300) / Mathf.Max(finalHomeOrWorkCount, 100), -50, 50);
-            //this.m_DemandWrapper.OnCalculateCommercialDemand(ref num3);
-            Debug.Print(districtData.ToString() + " - C: " + num3);
-            return Mathf.Clamp(num3, 0, 100);
-        }
 
-        private int CalculateWorkplaceDemand(District districtData)
-        {
-            // from ZoneManager
-            int value = (int)(districtData.m_residentialData.m_finalHomeOrWorkCount - districtData.m_residentialData.m_finalEmptyCount);
-            int a = (int)(districtData.m_commercialData.m_finalHomeOrWorkCount + districtData.m_industrialData.m_finalHomeOrWorkCount + districtData.m_officeData.m_finalHomeOrWorkCount + districtData.m_playerData.m_finalHomeOrWorkCount);
-            int num = (int)(districtData.m_commercialData.m_finalEmptyCount + districtData.m_industrialData.m_finalEmptyCount + districtData.m_officeData.m_finalEmptyCount + districtData.m_playerData.m_finalEmptyCount);
-            int num2 = (int)(districtData.m_educated0Data.m_finalUnemployed + districtData.m_educated1Data.m_finalUnemployed + districtData.m_educated2Data.m_finalUnemployed + districtData.m_educated3Data.m_finalUnemployed);
-            int num3 = Mathf.Clamp(value, 0, 50);
-            num3 += Mathf.Clamp((num2 * 200 - num * 200) / Mathf.Max(a, 100), -50, 50);
-            //this.m_DemandWrapper.OnCalculateWorkplaceDemand(ref num3);
-            Debug.Print(districtData.ToString() + " - I: " + num3);
-            return Mathf.Clamp(num3, 0, 100);
-        }
+            // UISprite ToolbarIconElectricity
+            int capElectricity = district.GetElectricityCapacity();
+            int comElectricity = district.GetElectricityConsumption();
+            sliderToolbarIconElectricity.value = capElectricity / Mathf.Max(comElectricity, 1);
+            sliderToolbarIconElectricity.tooltip = $"Capacity: {capElectricity} Consumption: {comElectricity}";
+
+            // UISprite ToolbarIconWaterAndSewage
+            int capWater = district.GetWaterCapacity();
+            int comWater = district.GetWaterConsumption();
+            int capSewage = district.GetSewageCapacity();
+            int comSewage = district.GetSewageAccumulation();
+            sliderToolbarIconWaterAndSewage.value = (capWater) / Mathf.Max(comWater, 1);
+            sliderToolbarIconWaterAndSewage.tooltip = $"Capacity: {capWater} Consumption: {comWater}";
+
+            // UISprite ToolbarIconGarbage
+            int capGarbage = district.GetGarbageCapacity();
+            int capGarbageInc = district.GetIncinerationCapacity();
+            int comGarbage = district.GetGarbageAccumulation();
+            sliderToolbarIconGarbage.value = (capGarbage + capGarbageInc) / Mathf.Max(comGarbage, 1);
+            sliderToolbarIconGarbage.tooltip = $"Capacity: {capGarbage+capGarbageInc} Accumulation: {comGarbage}";
+
+            // UISprite InfoIconHeating
+            int capHeat = district.GetHeatingCapacity();
+            int comHeat = district.GetHeatingConsumption();
+            sliderInfoIconHeating.value = capHeat / Mathf.Max(comHeat, 1);
+            sliderToolbarIconWaterAndSewage.tooltip = $"Capacity: {capHeat} Consumption: {comHeat}";
+
+            // UISprite InfoIconOutsideConnectionPressed    
+            int amtExport = district.GetExportAmount();
+            int amtImport = district.GetImportAmount();
+            labelImport.text = "Import: " + amtImport;
+            labelExport.text = "Export: " + amtExport;
+        }       
 
         //private District GetDistrict(string name){
         private District GetDistrict()
@@ -150,58 +259,45 @@ namespace DistrictStats
     }
 
 
-	public class DistrictRCIHook : ILoadingExtension {
+	public class DistrictStatsHook : ILoadingExtension {
 
 		public static UIPanel m_UIPanel;
         public static DistrictWorldInfoPanel m_DistrictWIP;
-        public static DistrictStatsPanel rciPanel;
-        public static GameObject rciGO;
+        public DistrictStatsPanel statsPanel;
+        public static GameObject statsGO;
+        public static UISprite iconDistrictStats;
 
 
-		public void OnCreated(ILoading loading){
-            /*
-            Debug.Print("OnCreated()");
-            DestroyOld ("DistrictRCIDemand");
-            
-			var timer = new Timer (10000); //delays GUI hook so other mods such as Building Themes can do its thing
-			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
-				HookGUI();
-				timer.Enabled = false;
-				timer.Dispose();
-			};
-
-			timer.Enabled = true;            
-            */
-		}
+        public void OnCreated(ILoading loading)
+        { }
 
 		public void OnLevelLoaded(LoadMode mode){
 			if (!(mode == LoadMode.LoadGame || mode == LoadMode.NewGame)) {
 				return;
 			}
 			Debug.Print ("OnLevelLoaded()");
-			DestroyOld ("DistrictRCIDemand");
+			DestroyOld ("DistrictStats");
 
-			var timer = new Timer (10000); //delays GUI hook so other mods such as Building Themes can do its thing
+			var timer = new Timer (11000); //delays GUI hook so other mods such as Building Themes can do its thing
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
-				HookGUI();
-				timer.Enabled = false;
-				timer.Dispose();
-			};
+                HookGUI();
+                timer.Enabled = false;
+                timer.Dispose();
+            };
 
 			timer.Enabled = true;
 		}
 
-		private void DestroyOld(string name){
-			try{
-                if (rciGO != null)
-				    GameObject.DestroyImmediate (rciGO);
-			}catch{					
-			}
-		}
-
-        public class DistrictRCIException : Exception
+		private void DestroyOld(string name)
         {
-            public DistrictRCIException(string msg) : base(msg) { }
+            GameObject.DestroyImmediate(iconDistrictStats);
+            GameObject.DestroyImmediate(statsPanel);
+            GameObject.DestroyImmediate(statsGO);
+        }
+
+        public class DistrictStatsException : Exception
+        {
+            public DistrictStatsException(string msg) : base(msg) { }
         }
 
 		private void HookGUI(){
@@ -210,40 +306,54 @@ namespace DistrictStats
             m_DistrictWIP = UIView.library.Get<DistrictWorldInfoPanel>(typeof(DistrictWorldInfoPanel).Name);
             m_UIPanel = UIView.library.Get<UIPanel>(typeof(DistrictWorldInfoPanel).Name);
 
-            rciGO = new GameObject("DistrictRCIDemand");
-            rciPanel = rciGO.AddComponent<DistrictStatsPanel>();
-            rciPanel.m_demandSprite = (UISlicedSprite)GameObject.Instantiate(UIView.Find<UISlicedSprite>("DemandBack"));
+            statsGO = new GameObject("DistrictStats");
+            statsPanel = statsGO.AddComponent<DistrictStatsPanel>();
+            statsPanel.transform.parent = m_UIPanel.transform;
+            statsPanel.relativePosition = new Vector3(m_UIPanel.width + 5, m_UIPanel.height - 220);
 
-            if (m_DistrictWIP == null || m_UIPanel == null || rciPanel.m_demandSprite == null)
+            // icon
+            iconDistrictStats = m_UIPanel.AddUIComponent<UISprite>();
+
+            if (m_DistrictWIP == null || m_UIPanel == null || statsPanel == null || iconDistrictStats == null)
             {
-                throw new DistrictRCIException("DistrictRCI couldn't hook GUI");
+                throw new DistrictStatsException("DistrictStats couldn't hook GUI");
             }
 
-            rciPanel.m_demandSprite.name = "DistrictRCIDemand_sprite";
-            rciPanel.m_demandSprite.cachedName = "DistrictRCIDemand_sprite";
+            // setup icon
+            iconDistrictStats.spriteName = "ToolbarIconElectricity";
+            iconDistrictStats.name = "Icon";
+            iconDistrictStats.tooltip = "DistrictStats - show capacity & consumption";
+            iconDistrictStats.size = new Vector2(40, 40);
+            iconDistrictStats.relativePosition = new Vector3(m_UIPanel.width - DistrictStatsHook.iconDistrictStats.width - 5, m_UIPanel.height - DistrictStatsHook.iconDistrictStats.height - 125);
+            iconDistrictStats.Show();
+            iconDistrictStats.BringToFront();
 
-            m_UIPanel.AttachUIComponent(rciPanel.m_demandSprite.gameObject); //attach demand sprite directly to original UI panel
-            rciPanel.m_demandSprite.relativePosition = new Vector3(m_UIPanel.width - rciPanel.m_demandSprite.width - 10f, m_UIPanel.height - rciPanel.m_demandSprite.height - 24f);
-            rciPanel.m_demandSprite.Show();
+            // custom panel only for triggering
+            iconDistrictStats.eventClicked += (component, value) => { statsPanel.displayRequested = true; };
+            m_UIPanel.eventVisibilityChanged += (component, value) => { statsPanel.OnVisibilityChanged(component, value); };
 
-            // custom panel only for triggering, always hide off-screen
-            rciPanel.size = new Vector2(0, 0);
-            rciPanel.transform.position = new Vector3(-10, 0, -10);
-            rciPanel.Hide();
-            m_UIPanel.eventVisibilityChanged += (component, value) => { rciPanel.OnVisibilityChanged(component, value); };
-            m_UIPanel.eventPositionChanged += (component, value) => { rciPanel.OnPositionChanged(component, value); };
+            Debug.Print("Hooking GUI completed.");
         }
         
-		public void OnReleased(){
-			Debug.Print ("Released");
-			try{
-                if (m_UIPanel != null && rciPanel != null)
-			        m_UIPanel.RemoveUIComponent (rciPanel.m_demandSprite);
-			}catch{			
-			}
-		}
+		public void OnReleased()
+        {
+            Debug.Print("Released");
+            try
+            {
+                if (m_UIPanel != null && iconDistrictStats != null)
+                    m_UIPanel.RemoveUIComponent(iconDistrictStats);
 
-		public void OnLevelUnloading(){}
+                DestroyOld("DistrictStats");
+            }
+            catch
+            { }
+        }
+
+		public void OnLevelUnloading()
+        {
+            OnReleased();
+        }
+
 	}
 }
 

@@ -10,7 +10,7 @@ namespace DistrictStats
 		}
 
 		public string Description{
-			get{return "Enables the ability to view consumtion demands & production capacities by district (power, water, good import/export, ...)";}
+			get{return "Enables the ability to view consumption & production capacities by district (power, water, good import/export, ...)";}
 		}
 	}
 }
