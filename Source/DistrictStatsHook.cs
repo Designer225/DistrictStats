@@ -75,7 +75,8 @@ namespace DistrictStats
             sliderToolbarIconElectricity.BringToFront();
             sliderToolbarIconElectricity.backgroundSprite = "MeterBackground";
             sliderToolbarIconElectricity.minValue = 0f;
-            sliderToolbarIconElectricity.maxValue = 2.2f;
+            sliderToolbarIconElectricity.maxValue = 1.9f;
+            sliderToolbarIconElectricity.stepSize = 0.1f;
             sliderToolbarIconElectricity.value = 0f;
             sliderToolbarIconElectricity.thumbObject = AddUIComponent<UISprite>();
             (sliderToolbarIconElectricity.thumbObject as UISprite).spriteName = "MeterIndicator";
@@ -89,7 +90,8 @@ namespace DistrictStats
             sliderToolbarIconWaterAndSewage.BringToFront();
             sliderToolbarIconWaterAndSewage.backgroundSprite = "MeterBackground";
             sliderToolbarIconWaterAndSewage.minValue = 0f;
-            sliderToolbarIconWaterAndSewage.maxValue = 2.2f;
+            sliderToolbarIconWaterAndSewage.maxValue = 1.9f;
+            sliderToolbarIconWaterAndSewage.stepSize = 0.1f;
             sliderToolbarIconWaterAndSewage.value = 0f;
             sliderToolbarIconWaterAndSewage.thumbObject = AddUIComponent<UISprite>();
             (sliderToolbarIconWaterAndSewage.thumbObject as UISprite).spriteName = "MeterIndicator";
@@ -104,7 +106,8 @@ namespace DistrictStats
             sliderToolbarIconGarbage.BringToFront();
             sliderToolbarIconGarbage.backgroundSprite = "MeterBackground";
             sliderToolbarIconGarbage.minValue = 0f;
-            sliderToolbarIconGarbage.maxValue = 2.2f;
+            sliderToolbarIconGarbage.maxValue = 1.9f;
+            sliderToolbarIconGarbage.stepSize = 0.1f;
             sliderToolbarIconGarbage.value = 0f;
             sliderToolbarIconGarbage.thumbObject = AddUIComponent<UISprite>();
             (sliderToolbarIconGarbage.thumbObject as UISprite).spriteName = "MeterIndicator";
@@ -119,7 +122,8 @@ namespace DistrictStats
             sliderInfoIconHeating.BringToFront();
             sliderInfoIconHeating.backgroundSprite = "MeterBackground";
             sliderInfoIconHeating.minValue = 0f;
-            sliderInfoIconHeating.maxValue = 2.2f;
+            sliderInfoIconHeating.maxValue = 1.9f;
+            sliderInfoIconHeating.stepSize = 0.1f;
             sliderInfoIconHeating.value = 0f;
             sliderInfoIconHeating.thumbObject = AddUIComponent<UISprite>();
             (sliderInfoIconHeating.thumbObject as UISprite).spriteName = "MeterIndicator";
@@ -238,7 +242,7 @@ namespace DistrictStats
             int capHeat = district.GetHeatingCapacity();
             int comHeat = district.GetHeatingConsumption();
             sliderInfoIconHeating.value = capHeat / Mathf.Max(comHeat, 1);
-            sliderToolbarIconWaterAndSewage.tooltip = $"Capacity: {capHeat} Consumption: {comHeat}";
+            sliderInfoIconHeating.tooltip = $"Capacity: {capHeat} Consumption: {comHeat}";
 
             // UISprite InfoIconOutsideConnectionPressed    
             int amtExport = district.GetExportAmount();
