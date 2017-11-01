@@ -75,8 +75,8 @@ namespace DistrictStats
             sliderToolbarIconElectricity.BringToFront();
             sliderToolbarIconElectricity.backgroundSprite = "MeterBackground";
             sliderToolbarIconElectricity.minValue = 0f;
-            sliderToolbarIconElectricity.maxValue = 1.9f;
-            sliderToolbarIconElectricity.stepSize = 0.01f;
+            sliderToolbarIconElectricity.maxValue = 100f;
+            sliderToolbarIconElectricity.stepSize = 0.1f;
             sliderToolbarIconElectricity.value = 0f;
             sliderToolbarIconElectricity.thumbObject = AddUIComponent<UISprite>();
             (sliderToolbarIconElectricity.thumbObject as UISprite).spriteName = "MeterIndicator";
@@ -90,8 +90,8 @@ namespace DistrictStats
             sliderToolbarIconWaterAndSewage.BringToFront();
             sliderToolbarIconWaterAndSewage.backgroundSprite = "MeterBackground";
             sliderToolbarIconWaterAndSewage.minValue = 0f;
-            sliderToolbarIconWaterAndSewage.maxValue = 1.9f;
-            sliderToolbarIconWaterAndSewage.stepSize = 0.01f;
+            sliderToolbarIconWaterAndSewage.maxValue = 100f;
+            sliderToolbarIconWaterAndSewage.stepSize = 0.1f;
             sliderToolbarIconWaterAndSewage.value = 0f;
             sliderToolbarIconWaterAndSewage.thumbObject = AddUIComponent<UISprite>();
             (sliderToolbarIconWaterAndSewage.thumbObject as UISprite).spriteName = "MeterIndicator";
@@ -106,8 +106,8 @@ namespace DistrictStats
             sliderToolbarIconGarbage.BringToFront();
             sliderToolbarIconGarbage.backgroundSprite = "MeterBackground";
             sliderToolbarIconGarbage.minValue = 0f;
-            sliderToolbarIconGarbage.maxValue = 1.9f;
-            sliderToolbarIconGarbage.stepSize = 0.01f;
+            sliderToolbarIconGarbage.maxValue = 100f;
+            sliderToolbarIconGarbage.stepSize = 0.1f;
             sliderToolbarIconGarbage.value = 0f;
             sliderToolbarIconGarbage.thumbObject = AddUIComponent<UISprite>();
             (sliderToolbarIconGarbage.thumbObject as UISprite).spriteName = "MeterIndicator";
@@ -122,8 +122,8 @@ namespace DistrictStats
             sliderInfoIconHeating.BringToFront();
             sliderInfoIconHeating.backgroundSprite = "MeterBackground";
             sliderInfoIconHeating.minValue = 0f;
-            sliderInfoIconHeating.maxValue = 1.9f;
-            sliderInfoIconHeating.stepSize = 0.01f;
+            sliderInfoIconHeating.maxValue = 100f;
+            sliderInfoIconHeating.stepSize = 0.1f;
             sliderInfoIconHeating.value = 0f;
             sliderInfoIconHeating.thumbObject = AddUIComponent<UISprite>();
             (sliderInfoIconHeating.thumbObject as UISprite).spriteName = "MeterIndicator";
@@ -220,7 +220,7 @@ namespace DistrictStats
             // UISprite ToolbarIconElectricity
             int capElectricity = district.GetElectricityCapacity();
             int comElectricity = district.GetElectricityConsumption();
-            sliderToolbarIconElectricity.value = capElectricity / Mathf.Max(comElectricity, 1);
+            sliderToolbarIconElectricity.value = GetPercentage(capElectricity, Mathf.Max(comElectricity, 1));
             sliderToolbarIconElectricity.tooltip = $"Capacity: {capElectricity} Consumption: {comElectricity}";
 
             // UISprite ToolbarIconWaterAndSewage
@@ -228,28 +228,58 @@ namespace DistrictStats
             int comWater = district.GetWaterConsumption();
             int capSewage = district.GetSewageCapacity();
             int comSewage = district.GetSewageAccumulation();
-            sliderToolbarIconWaterAndSewage.value = (capWater) / Mathf.Max(comWater, 1);
+            sliderToolbarIconWaterAndSewage.value = GetPercentage(capWater, Mathf.Max(comWater, 1));
             sliderToolbarIconWaterAndSewage.tooltip = $"Capacity: {capWater} Consumption: {comWater}";
 
             // UISprite ToolbarIconGarbage
-            int capGarbage = district.GetGarbageCapacity();
+            int capGarbage = district.GetGarbageCapacity() - district.GetGarbageAmount();   //only count free capacity!
             int capGarbageInc = district.GetIncinerationCapacity();
             int comGarbage = district.GetGarbageAccumulation();
-            sliderToolbarIconGarbage.value = (capGarbage + capGarbageInc) / Mathf.Max(comGarbage, 1);
+            sliderToolbarIconGarbage.value = GetPercentage((capGarbage + capGarbageInc),  Mathf.Max(comGarbage, 1));
             sliderToolbarIconGarbage.tooltip = $"Capacity: {capGarbage+capGarbageInc} Accumulation: {comGarbage}";
 
             // UISprite InfoIconHeating
             int capHeat = district.GetHeatingCapacity();
             int comHeat = district.GetHeatingConsumption();
-            sliderInfoIconHeating.value = capHeat / Mathf.Max(comHeat, 1);
+            sliderInfoIconHeating.value = GetPercentage(capHeat, Mathf.Max(comHeat, 1));
             sliderInfoIconHeating.tooltip = $"Capacity: {capHeat} Consumption: {comHeat}";
 
             // UISprite InfoIconOutsideConnectionPressed    
-            uint amtExport = district.m_exportData.m_averageAgricultural + district.m_exportData.m_averageForestry + district.m_exportData.m_averageGoods + district.m_exportData.m_averageOil + district.m_exportData.m_averageOre;
-            uint amtImport = district.m_importData.m_averageAgricultural + district.m_importData.m_averageForestry + district.m_importData.m_averageGoods + district.m_importData.m_averageOil + district.m_importData.m_averageOre;
-            labelImport.text = "Import: " + amtImport;
+            float amtExport = district.m_exportData.m_averageAgricultural + district.m_exportData.m_averageForestry + district.m_exportData.m_averageGoods + district.m_exportData.m_averageOil + district.m_exportData.m_averageOre;
+            float amtImport = district.m_importData.m_averageAgricultural + district.m_importData.m_averageForestry + district.m_importData.m_averageGoods + district.m_importData.m_averageOil + district.m_importData.m_averageOre;        
             labelExport.text = "Export: " + amtExport;
-        }       
+            labelImport.text = "Import: " + amtImport;
+            if (amtExport > 10000)
+            {
+                amtExport /= 1000;
+                labelExport.text = "Export: " + amtExport.ToString("0.0") + "k";
+            }
+            if (amtImport > 10000)
+            {
+                amtImport /= 1000;
+                labelImport.text = "Import: " + amtImport.ToString("0.0") + "k";
+            }
+        }
+
+
+        // get properly formatted percentage
+        protected int GetPercentage(int capacity, int need)
+        {
+            const int needMin = 40;
+            const int needMax = 60;
+
+            if (need != 0)
+            {
+                float num = (float)capacity / (float)need;
+                return (int)(num * (float)((needMin + needMax) / 2));
+            }
+            if (capacity == 0)
+            {
+                return 0;
+            }
+            return 100;
+        }
+
 
         //private District GetDistrict(string name){
         private District GetDistrict()
