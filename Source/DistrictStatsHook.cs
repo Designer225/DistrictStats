@@ -173,6 +173,7 @@ namespace DistrictStats
 
             CreatePanel();
             Hide();
+            Debug.Print("Panel created, position: "+this.transform.position);
         }
 
         /**
@@ -313,10 +314,10 @@ namespace DistrictStats
 			DestroyOld ("DistrictStats");
 
 			var timer = new Timer (11000); //delays GUI hook so other mods such as Building Themes can do its thing
-			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
-                HookGUI();
+			timer.Elapsed += (object sender, ElapsedEventArgs e) => {                
                 timer.Enabled = false;
                 timer.Dispose();
+                HookGUI();
             };
 
 			timer.Enabled = true;
@@ -343,6 +344,7 @@ namespace DistrictStats
             statsGO = new GameObject("DistrictStats");
             statsPanel = statsGO.AddComponent<DistrictStatsPanel>();
             statsPanel.transform.parent = m_UIPanel.transform;
+            statsPanel.transform.position = m_UIPanel.transform.position;
             statsPanel.relativePosition = new Vector3(m_UIPanel.width + 5, m_UIPanel.height - 220);
 
             // icon
