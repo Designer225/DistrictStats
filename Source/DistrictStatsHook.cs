@@ -176,6 +176,14 @@ namespace DistrictStats
             Debug.Print("Panel created, position: "+this.transform.position);
         }
 
+
+        public void PositionPanel()
+        {
+            this.transform.position = DistrictStatsHook.m_UIPanel.transform.position;
+            this.relativePosition = new Vector3(DistrictStatsHook.m_UIPanel.width + 5, DistrictStatsHook.m_UIPanel.height - 220);
+        }
+
+
         /**
          * FROM District Service Limit:
          * It's a bit tricky to get the building selection right:
@@ -199,6 +207,7 @@ namespace DistrictStats
                     isShowing = true;
 
                     SetInfo(GetDistrict());
+                    PositionPanel();
                     Show();
                 }
             }
@@ -313,7 +322,7 @@ namespace DistrictStats
 			Debug.Print ("OnLevelLoaded()");
 			DestroyOld ("DistrictStats");
 
-			var timer = new Timer (11000); //delays GUI hook so other mods such as Building Themes can do its thing
+			var timer = new Timer (1000); //delays GUI hook so other mods such as Building Themes can do its thing
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {                
                 timer.Enabled = false;
                 timer.Dispose();
@@ -344,8 +353,7 @@ namespace DistrictStats
             statsGO = new GameObject("DistrictStats");
             statsPanel = statsGO.AddComponent<DistrictStatsPanel>();
             statsPanel.transform.parent = m_UIPanel.transform;
-            statsPanel.transform.position = m_UIPanel.transform.position;
-            statsPanel.relativePosition = new Vector3(m_UIPanel.width + 5, m_UIPanel.height - 220);
+            statsPanel.PositionPanel();
 
             // icon
             iconDistrictStats = m_UIPanel.AddUIComponent<UISprite>();
@@ -379,7 +387,6 @@ namespace DistrictStats
                 if (m_UIPanel != null && iconDistrictStats != null)
                     m_UIPanel.RemoveUIComponent(iconDistrictStats);
 
-                DestroyOld("DistrictStats");
             }
             catch
             { }
